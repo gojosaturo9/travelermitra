@@ -1,26 +1,81 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wanderlust</title>
-</head>
-<body>
-    <h3>Edit your Listing</h3>
-    <form action="/listings/<%=singlelisting._id%>?_method=PUT" method="post">
-        <input type="text" name="listing[title]" value="<%=singlelisting.title%>">
-        <br><br>
-        <textarea name="listing[description]"  value="<%=singlelisting.description %>"></textarea>
-        <br><br>
-        <input type="text" name="listing[image]" value="<%=singlelisting.image%>">
-        <br><br>
-        <input type="number" name="listing[price]" value="<%=singlelisting.price%>">
-        <br><br>
-        <input type="text" name="listing[country]" value="<%=singlelisting.country%>">
-        <br><br>
-        <input type="text" name="listing[location]" value="<<%=singlelisting.location%>">
-        <br><br>
-        <button>Add</button>
-    </form>
-</body>
-</html>
+<% layout("layouts/boilerplate") -%>
+
+<div class="row mt-3">
+    <div class="col-8 offset-2">
+        <h3>Edit your Listing</h3>
+
+        <form action="/listings/<%= singlelisting._id %>?_method=PUT" method="post">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="title"
+                    name="listing[title]"
+                    value="<%= singlelisting.title %>"
+                    required
+                >
+            </div>
+
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea
+                    class="form-control"
+                    id="description"
+                    name="listing[description]"
+                    required
+                ><%= singlelisting.description %></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="image" class="form-label">Image Link</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="image"
+                    name="listing[image][url]"
+                    value="<%= singlelisting.image.url %>"
+                >
+            </div>
+
+            <div class="mb-3">
+                <label for="price" class="form-label">Price</label>
+                <input
+                    type="number"
+                    class="form-control"
+                    id="price"
+                    name="listing[price]"
+                    value="<%= singlelisting.price %>"
+                    min="0"
+                    required
+                >
+            </div>
+
+            <div class="mb-3">
+                <label for="country" class="form-label">Country</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="country"
+                    name="listing[country]"
+                    value="<%= singlelisting.country %>"
+                    required
+                >
+            </div>
+
+            <div class="mb-3">
+                <label for="location" class="form-label">Location</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="location"
+                    name="listing[location]"
+                    value="<%= singlelisting.location %>"
+                    required
+                >
+            </div>
+
+            <button class="btn btn-dark edit-btn mb-3">Update</button>
+        </form>
+    </div>
+</div>

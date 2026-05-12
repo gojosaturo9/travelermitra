@@ -1,16 +1,29 @@
-
 <% layout("layouts/boilerplate") -%>
-<body>
-    <h3>listing Details : </h3>
-    <ul>
-        <li><%= singlelisting.title %></li>
-        <li><%= singlelisting.description %></li>
-        <li> &#8377; <%=singlelisting.price.toLocaleString("en-IN") %></li>
-        <li><%=singlelisting.location%></li>
-        <li><%=singlelisting.country%></li>
-    </ul>
-    <a href="/listings/<%= singlelisting._id %>/edit">Edit this Listing</a>
-    <form action="/listings/<%= singlelisting._id %>?_method=DELETE" method="post">
-        <button>Delete</button>
-    </form>
-</body>
+
+<div class="row mt-3">
+    <div class="col-8 offset-2">
+        <h3><%= singlelisting.title %></h3>
+
+        <div class="card show-card">
+            <img
+                src="<%= singlelisting.image.url %>"
+                class="card-img-top show-img"
+                alt="listing_image"
+            >
+            <div class="card-body">
+                <p class="card-text"><%= singlelisting.description %></p>
+                <p class="card-text">
+                    &#8377;<%= singlelisting.price ? singlelisting.price.toLocaleString("en-IN") : "N/A" %> / night
+                </p>
+                <p class="card-text"><%= singlelisting.location %>, <%= singlelisting.country %></p>
+            </div>
+        </div>
+
+        <div class="show-actions">
+            <a href="/listings/<%= singlelisting._id %>/edit" class="btn btn-dark">Edit</a>
+            <form action="/listings/<%= singlelisting._id %>?_method=DELETE" method="post">
+                <button class="btn btn-danger">Delete</button>
+            </form>
+        </div>
+    </div>
+</div>

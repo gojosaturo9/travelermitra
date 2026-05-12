@@ -31,7 +31,7 @@ const listingSchema = new mongoose.Schema({
         filename: String,
         url: String
     },
-    price: Number,
+    price : Number,
     location:String,
     country:String
 });
