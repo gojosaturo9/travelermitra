@@ -4,7 +4,7 @@
     <div class="col-8 offset-2">
         <h3>Edit your Listing</h3>
 
-        <form action="/listings/<%= singlelisting._id %>?_method=PUT" method="post">
+        <form action="/listings/<%= singlelisting._id %>?_method=PUT" method="post" novalidate class="needs-validation">
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
                 <input
@@ -15,6 +15,7 @@
                     value="<%= singlelisting.title %>"
                     required
                 >
+                <div class="valid-feedback">title looks good</div>
             </div>
 
             <div class="mb-3">
@@ -25,6 +26,7 @@
                     name="listing[description]"
                     required
                 ><%= singlelisting.description %></textarea>
+                <div class="invalid-feedback">enter valid description</div>
             </div>
 
             <div class="mb-3">
@@ -35,7 +37,9 @@
                     id="image"
                     name="listing[image][url]"
                     value="<%= singlelisting.image.url %>"
+                    required
                 >
+                <div class="invalid-feedback">enter valid image link</div>
             </div>
 
             <div class="mb-3">
@@ -49,6 +53,7 @@
                     min="0"
                     required
                 >
+                <div class="invalid-feedback">invalid price</div>
             </div>
 
             <div class="mb-3">
@@ -61,6 +66,7 @@
                     value="<%= singlelisting.country %>"
                     required
                 >
+                <div class="invalid-feedback">invalid country name</div>
             </div>
 
             <div class="mb-3">
@@ -73,9 +79,12 @@
                     value="<%= singlelisting.location %>"
                     required
                 >
+                <div class="invalid-feedback">enter valid location</div>
             </div>
 
             <button class="btn btn-dark edit-btn mb-3">Update</button>
         </form>
     </div>
 </div>
+
+<script src="/js/script.js"></script>

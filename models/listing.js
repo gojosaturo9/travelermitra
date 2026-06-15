@@ -1,28 +1,6 @@
-// const mongoose = require("mongoose");
-// const Schema = mongoose.Schema;
-
-// const listingSchema = new Schema({
-//     title:{
-//         type:String,
-//         required:true,
-//     },
-//     description:String,
-//     image:{
-//        type:String,
-//        default:"https://unsplash.com/photos/sunlight-streams-through-trees-onto-a-field-of-wildflowers-MFxwUCVe6l4",
-//        set: (v) => v==""?"https://unsplash.com/photos/sunlight-streams-through-trees-onto-a-field-of-wildflowers-MFxwUCVe6l4":v,
-//     },
-//     price:Number,
-//     location:String,
-//     country:String,
-// });
-
-
-// const listing = mongoose.model("listing" , listingSchema);
-
-// module.exports=listing;
-
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+const Review = require("./reviews.js");
 
 const listingSchema = new mongoose.Schema({
     title: String,
@@ -33,9 +11,20 @@ const listingSchema = new mongoose.Schema({
     },
     price : Number,
     location:String,
-    country:String
+    country:String,
+    reviews:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"Review"
+        }
+    ]
+});
+
+listingSchema.post("findOneAndDelete" , async(listing)=>{
+    if(listing){
+       await Review.deleteMany({ _id: {$in:listing.reviews}});
+    }
 });
 
 const Listing = mongoose.model("Listing", listingSchema);
-
 module.exports = Listing;

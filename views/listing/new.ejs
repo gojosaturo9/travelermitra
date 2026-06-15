@@ -4,7 +4,7 @@
     <div class="col-8 offset-2">
         <h3>Create New Listing</h3>
 
-        <form action="/listings" method="post">
+        <form action="/listings" method="post" novalidate class="needs-validation">
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
                 <input
@@ -15,6 +15,7 @@
                     placeholder="Enter title"
                     required
                 >
+                <div class="valid-feedback">title looks good</div>
             </div>
 
             <div class="mb-3">
@@ -36,6 +37,7 @@
                     id="image"
                     name="listing[image][url]"
                     placeholder="Enter image URL/link"
+                    required
                 >
             </div>
 <div class="row mt-3"> 
@@ -50,6 +52,7 @@
                     min="0"
                     required
                 >
+                <div class="invalid-feedback">invalid price</div>
             </div>
 
             <div class="mb-3" col-8>
@@ -62,6 +65,7 @@
                     placeholder="Enter country"
                     required
                 >
+                <div class="invalid-feedback">invalid country name</div>
             </div>
 </div>
             
@@ -78,6 +82,7 @@
                     placeholder="Enter location"
                     required
                 >
+                <div class="invalid-feedback">enter valid location</div>
             </div>
 
             <button class="add-button btn btn-dark mb-3 ">Add</button>
