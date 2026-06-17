@@ -7,6 +7,7 @@ const wrapAsync = require("../utils/wrapAsync.js");
 const ExpressError  = require("../utils/ExpressError.js");
 const {listingSchema, reviewSchema} = require("../schema.js");
 
+const {isLoggedIn} = require("../middleware.js");
 
 //validate
 const validateListing = (req, res, next) => {
@@ -28,39 +29,47 @@ const validateReview = (req,res,next)=>{
     next();
 };
 
+
+// Index Route - Show all listings
 router.get("/", 
     wrapAsync(async (req,res)=>{
     const allListing = await listing.find({});
     res.render("listing/index.ejs", {allListing});
 }));
 
-router.get("/new", (req,res)=>{
+// New Route - Render form to create new listing
+router.get("/new", isLoggedIn, (req,res)=>{   
+
     res.render("listing/new.ejs");
 });
 
+
+// Show Route - Show details of a specific listing
 router.get("/:id",
       wrapAsync(async(req,res)=>{
           let {id}= req.params;
           const singlelisting = await listing.findById(id).populate("reviews");
 
           if(!singlelisting){
-              throw new ExpressError(404, "Listing not found");
+              req.flash("error", "Listing you requested for does not exist");
+              return res.redirect("/listings");
           }
 
           res.render("listing/show.ejs",{singlelisting});
       })
   );
 
-router.get("/:id/edit",
+// Edit Route - Render form to edit an existing listing
+router.get("/:id/edit", isLoggedIn,
     wrapAsync(async(req,res)=>{
     let {id}= req.params;
     const singlelisting = await listing.findById(id);
     res.render("listing/edit.ejs", { singlelisting });
 }));
 
-  //create routes
+// Create Route - Save new listing to database
 router.post("/",
-    validateListing,
+    validateListing, isLoggedIn,
     wrapAsync(async(req,res , next)=>{
  const newlisting = new listing(req.body.listing);
     await newlisting.save();
@@ -71,8 +80,8 @@ router.post("/",
 
 
 
-//reviews post route 
-router.post("/:id/reviews",
+// Create Review Route - Add a review to a listing
+router.post("/:id/reviews", isLoggedIn,
     validateReview,
     wrapAsync(async(req,res)=>{
     const foundlisting = await  listing.findById(req.params.id);
@@ -87,8 +96,8 @@ router.post("/:id/reviews",
 })
 );
 
-// delete reviews route
-router.delete("/:id/reviews/:reviewId",
+// Delete Review Route - Remove a review from a listing
+router.delete("/:id/reviews/:reviewId", isLoggedIn,
     wrapAsync(async(req,res)=>{
         let {id, reviewId} = req.params;
 
@@ -99,7 +108,9 @@ router.delete("/:id/reviews/:reviewId",
     })
 );
 
+// Update Route - Save updated listing to database
 router.put("/:id", 
+    isLoggedIn,
     validateListing,
     wrapAsync(async (req, res) => {
     let { id } = req.params;
@@ -109,7 +120,9 @@ router.put("/:id",
 })
 );
 
+// Delete Route - Remove listing from database
 router.delete("/:id",
+    isLoggedIn,
     wrapAsync(async (req,res)=>{
     let {id} = req.params;
     await listing.findByIdAndDelete(id);

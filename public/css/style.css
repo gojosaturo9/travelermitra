@@ -42,7 +42,7 @@ min-height: 100vh;
 .f-info-socials,
 .f-info-brand{
     flex: 1;
-    width: 100;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -73,7 +73,7 @@ min-height: 100vh;
 
 
 .card-img-top{
-    border-radius: 1 rem !important;
+    border-radius: 1rem !important;
     width: 100% !important;
     object-fit: cover !important;
 }

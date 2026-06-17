@@ -9,10 +9,18 @@ const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError  = require("./utils/ExpressError.js");
 const Review = require("./models/reviews.js");
 const {listingSchema, reviewSchema} = require("./schema.js");
+
+
 const listingRouter = require("./routes/listing.js");
+const userRouter  =require("./routes/user.js");
+
 const session = require("express-session");
 const flash = require("connect-flash");
 const cookieParser = require("cookie-parser");
+const passport = require("passport");
+const localStrategy = require("passport-local");
+const User = require("./models/user.js");
+
 
 const mongo_url = "mongodb://127.0.0.1:27017/wanderlust";
 
@@ -48,22 +56,44 @@ const sessionOptions = {
     },
 };
 
-//root routes
-app.get("/",(req,res)=>{
-    res.send("hi im ready to work");
-});
-
 app.use(session(sessionOptions));
 app.use(flash());
+
+// Root Route - Redirects to listings page
+app.get("/",(req,res)=>{
+    res.redirect("/listings");
+});
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new localStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 
 app.use((req,res,next)=>{
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
+    res.locals.currUser = req.user;
     next();
 });
 
+// Demo User Route - Creates a test user
+app.get("/demouser" , async(req,res)=>{
+    let fakeUser = new User({
+        email:"Student@gmail.com",
+        username:"delta-student"
+    });
 
+    let registeredUser = await User.register(fakeUser,"helloworld");
+    res.send(registeredUser);
+});
+
+// Mounting Listing Routes
 app.use("/listings", listingRouter);
+// Mounting User Routes (Signup, Login, Logout)
+app.use("/" , userRouter);
 
 
 
