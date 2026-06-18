@@ -11,6 +11,7 @@
                 alt="listing_image"
             >
             <div class="card-body">
+                <p class="card-text">Owned by: <i><%= singlelisting.Owner ? singlelisting.Owner.username : "Anonymous" %></i></p>
                 <p class="card-text"><%= singlelisting.description %></p>
                 <p class="card-text">
                     &#8377;<%= singlelisting.price ? singlelisting.price.toLocaleString("en-IN") : "N/A" %> / night
@@ -19,12 +20,17 @@
             </div>
         </div>
 
+
+    <% if(currUser && singlelisting.Owner && singlelisting.Owner._id.equals(currUser._id)){ %>
         <div class="show-actions">
-            <a href="/listings/<%= singlelisting._id %>/edit" class="btn btn-dark">Edit</a>
-            <form action="/listings/<%= singlelisting._id %>?_method=DELETE" method="post">
+            <a href="/listings/<%= singlelisting._id %>/edit" 
+                class="btn btn-dark">Edit</a>
+            <form action="/listings/<%= singlelisting._id %>?_method=DELETE"
+                 method="post">
                 <button class="btn btn-danger">Delete</button>
             </form>
         </div>
+    <% } %>
     </div>
         <div class="mb-3 mt-3">
             <br>
@@ -66,7 +72,7 @@
                         <div class="card shadow-sm h-100">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
-                                    <h5 class="card-title mb-0">Review</h5>
+                                    <h5 class="card-title mb-0">@<%= review.author ? review.author.username : "Anonymous" %></h5>
                                     <span class="badge bg-dark">
                                         <%= review.rating %>/5
                                     </span>
@@ -75,11 +81,13 @@
                                     <%= review.comment %>
                                 </p>
                             </div>
+                            <% if(currUser && review.author && review.author._id.equals(currUser._id)){ %>
                             <form class="mb-3"
                              method="post" 
                              action="/listings/<%=singlelisting._id %>/reviews/<%=review._id %>?_method=DELETE">
                             <button class="btn btn-danger">Delete</button>
                         </form>
+                        <% } %>
                         </div>
                     </div>
                      
