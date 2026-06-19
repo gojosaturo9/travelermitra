@@ -4,7 +4,7 @@
     <div class="col-8 offset-2">
         <h3>Edit your Listing</h3>
 
-        <form action="/listings/<%= singlelisting._id %>?_method=PUT" method="post" novalidate class="needs-validation">
+        <form action="/listings/<%= singlelisting._id %>?_method=PUT" method="post" novalidate class="needs-validation" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
                 <input
@@ -29,17 +29,15 @@
                 <div class="invalid-feedback">enter valid description</div>
             </div>
 
-            <div class="mb-3">
-                <label for="image" class="form-label">Image Link</label>
+                        <div class="mb-3">
+                <label for="image" class="form-label">Upload New Image</label>
                 <input
-                    type="text"
+                    type="file"
                     class="form-control"
                     id="image"
-                    name="listing[image][url]"
-                    value="<%= singlelisting.image.url %>"
-                    required
+                    name="listing[image]"
                 >
-                <div class="invalid-feedback">enter valid image link</div>
+                <div class="form-text">Current image will be kept if no new image is uploaded.</div>
             </div>
 
             <div class="mb-3">
