@@ -18,7 +18,7 @@ const reviewController= require("../controllers/reviews.js");
 
 router.route("/")
    .get(wrapAsync(listingController.index))
-   .post(upload.single('listing[image]'),validateListing, isLoggedIn,wrapAsync(listingController.createListing));
+   .post(isLoggedIn, upload.single('listing[image]'), validateListing, wrapAsync(listingController.createListing));
 
 
 
@@ -27,8 +27,8 @@ router.get("/new", isLoggedIn, listingController.renderNewForm);
 
 router.route("/:id")
    .get(wrapAsync(listingController.showListing))
-  .put(upload.single('listing[image]'),isLoggedIn,isOwner,validateListing,wrapAsync(listingController.updateListing))
-  .delete(isLoggedIn,isOwner,wrapAsync(listingController.destroyListing));
+   .put(isLoggedIn, isOwner, upload.single('listing[image]'), validateListing, wrapAsync(listingController.updateListing))
+   .delete(isLoggedIn, isOwner, wrapAsync(listingController.destroyListing));
 
 
 

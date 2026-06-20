@@ -19,7 +19,19 @@
                 <p class="card-text"><%= singlelisting.location %>, <%= singlelisting.country %></p>
             </div>
         </div>
-
+     
+        
+        <% if(singlelisting.coordinates && singlelisting.coordinates.lat && singlelisting.coordinates.lng) { %>
+        <h5 class="mt-3"><i class="fa-solid fa-location-dot"></i> Where you'll be</h5>
+        <div id="map" 
+             data-lat="<%= singlelisting.coordinates.lat %>" 
+             data-lng="<%= singlelisting.coordinates.lng %>"
+             data-title="<%= singlelisting.title %>"
+             data-location="<%= singlelisting.location %>"
+             style="width:100%; height:300px; border-radius:10px; margin-bottom:15px;">
+        </div>
+        <% } %>
+        
 
     <% if(currUser && singlelisting.Owner && singlelisting.Owner._id.equals(currUser._id)){ %>
         <div class="show-actions">
@@ -120,5 +132,22 @@
       ratingDisplay.textContent = `Rating: ${val} star${val > 1 ? 's' : ''} - ${ratingLabels[val]}`;
     });
   });
-</script>
 
+  const mapElement = document.getElementById('map');
+  if (mapElement) {
+    const lat = parseFloat(mapElement.dataset.lat);
+    const lng = parseFloat(mapElement.dataset.lng);
+    const title = mapElement.dataset.title;
+    const locationName = mapElement.dataset.location;
+
+    const map = L.map('map').setView([lat, lng], 13);
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    const marker = L.marker([lat, lng]).addTo(map);
+    marker.bindPopup(`<b>${title}</b><br>${locationName}`).openPopup();
+  }
+</script>
