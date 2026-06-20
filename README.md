@@ -1,4 +1,4 @@
-# TravelerMitra 🌍
+# Wanderlust 🌍
 
 [![Node.js](https://img.shields.io/badge/Node.js-v20+-43853D?style=flat-square&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![Express.js](https://img.shields.io/badge/Express.js-v5-000000?style=flat-square&logo=express&logoColor=white)](https://expressjs.com/)
@@ -6,7 +6,7 @@
 [![Cloudinary](https://img.shields.io/badge/Cloudinary-Cloud--Upload-3448C5?style=flat-square&logo=cloudinary&logoColor=white)](https://cloudinary.com/)
 [![Leaflet](https://img.shields.io/badge/Leaflet-Maps-199900?style=flat-square&logo=leaflet&logoColor=white)](https://leafletjs.com/)
 
-**TravelerMitra** is a feature-rich, full-stack travel platform designed to browse, list, and review unique destinations worldwide. Built with modern backend engineering principles, the project follows a decoupled **MVC (Model-View-Controller)** pattern, secure session-based authentication, server-side validation, and cloud-based asset/map integrations.
+**Wanderlust** is a feature-rich, full-stack travel platform designed to browse, list, and review unique destinations worldwide. Built with modern backend engineering principles, the project follows a decoupled **MVC (Model-View-Controller)** pattern, secure session-based authentication, server-side validation, and cloud-based asset/map integrations.
 
 ---
 
@@ -60,7 +60,7 @@
 ## 📂 Decoupled Directory Structure
 
 ```text
-travelermitra/
+wanderlust/
 ├── 📂 controllers/      # Route execution logic (MVC Controllers)
 ├── 📂 init/             # Data seeding & migration scripts
 ├── 📂 models/           # Mongoose Database Schemas & relationships
@@ -123,7 +123,7 @@ erDiagram
 ### 1. Clone & Install Dependencies
 ```bash
 git clone <your-repository-link>
-cd travelermitra
+cd wanderlust
 npm install
 ```
 

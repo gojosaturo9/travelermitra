@@ -5,7 +5,7 @@ async function geocodeLocation(locationText) {
     q=${encodeURIComponent(locationText)}&format=json&limit=1`;
 
     const response = await fetch(url, {
-        headers: { 'User-Agent':'TravelMitra/1.0'}
+        headers: { 'User-Agent':'Wanderlust/1.0'}
     });
 
     const data = await response.json();
