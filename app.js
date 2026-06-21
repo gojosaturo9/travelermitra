@@ -66,7 +66,7 @@ store.on("error",(err)=>{
 // cookie
 const sessionOptions = {
     store:store,
-    secret:process.env.SECRET,
+    secret: process.env.SECRET || "mysupersecretcode",
     resave: false,
     saveUninitialized: true,
     cookie:{
@@ -124,11 +124,15 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-    let{statusCode=500, message="something went wrong"} =err;
+    let {statusCode=500, message="something went wrong"} = err;
+    res.locals.currUser = req.user || null;
+    res.locals.success = req.flash ? req.flash("success") : [];
+    res.locals.error = req.flash ? req.flash("error") : [];
     res.status(statusCode).render("listing/error.ejs", {err});
-  });
+});
 
 
-  app.listen(8080,()=>{
-    console.log("server is running");
+const port = process.env.PORT || 8080;
+app.listen(port, () => {
+    console.log(`server is running on port ${port}`);
 });
